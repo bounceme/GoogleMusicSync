@@ -93,7 +93,6 @@ print "Time taken", time.clock()-start
 print 'Putting google songs in a dictionary'
 for song in google_songs:
     google_songs_dict[(song["title"].encode('ascii', 'ignore'), song["artist"].encode('ascii', 'ignore'))] = song
-print google_songs
 print "Removing music from google play that does not exist on computer."
 delete_songs = []
 for song in google_songs:
