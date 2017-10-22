@@ -38,13 +38,13 @@ class MusicDict():
         for phile in files:
             if(len(re.findall(".*(mp3|mp4|m4a)$", phile)) != 0):
                 file_info = {'path': os.path.join(path, phile), 'filename': phile}
-                if('m4a' in phile):
+                if(phile.endswith("m4a")):
                     va = mfor(file_info['path'])
                     self.songs[(va[0],va[1])] = va
-                elif('mp4' in phile):
+                elif(phile.endswith("mp4")):
                     va = mfor(file_info['path'])
                     self.songs[(va[0],va[1])] = va
-                elif('mp3' in phile):
+                elif(phile.endswith("mp3")):
                     audio = ID3(file_info['path'])
                     file_info['title'] = audio.get('TIT2').text[0]
                     file_info['artist'] = audio.get('TPE1').text[0]
@@ -59,31 +59,24 @@ class MusicDict():
         return (title, artist) in self.songs
 
 
-print "Beginning program"
-
-print "Building dictionary of songs on computer"
 music_dict = build_dict()
-print "Done building"
 print "Songs found: ", music_dict.size
 
-print "Getting music from google"
 google_music = gmusicapi.Mobileclient()
 google_music.login(sys.argv[1],sys.argv[2],google_music.FROM_MAC_ADDRESS)
 google_songs = google_music.get_all_songs()
 
 delete_songs = []
-print 'Putting google songs in a dictionary'
 print "Removing music from google play that does not exist on computer."
 for song in google_songs:
     if not music_dict.song_exists(song["title"], song["artist"]):
         print "Deleting "+song["title"]+" by "+song["artist"]+" remotely"
-        #response = raw_input("Do you want to delete this song? (y/n): ")
-        response = 'y'
-        if(response!="n"):
-                delete_songs.append(song["id"])
+        delete_songs.append(song["id"])
 try:
-    print delete_songs
-    # google_music.delete_songs(delete_songs)
+    # print delete_songs
+    response = raw_input("Do you want to delete these songs? (y/n): ")
+    if(response!="n"):
+        google_music.delete_songs(delete_songs)
 except Exception as e:
     print e
 
