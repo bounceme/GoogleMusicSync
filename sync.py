@@ -1,7 +1,6 @@
 import gmusicapi
 import os
 import sys
-import time
 import re
 from mutagen.id3 import ID3
 from mutagen.mp4 import MP4
@@ -63,18 +62,14 @@ class MusicDict():
 print "Beginning program"
 
 print "Building dictionary of songs on computer"
-start = time.clock()
 music_dict = build_dict()
 print "Done building"
-print "Time taken", time.clock()-start
 print "Songs found: ", music_dict.size
 
-start = time.clock()
 print "Getting music from google"
 google_music = gmusicapi.Mobileclient()
 google_music.login(sys.argv[1],sys.argv[2],google_music.FROM_MAC_ADDRESS)
 google_songs = google_music.get_all_songs()
-print "Time taken", time.clock()-start
 
 delete_songs = []
 print 'Putting google songs in a dictionary'
