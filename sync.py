@@ -3,7 +3,7 @@ import os
 import sys
 import time
 import re
-from mutagen.id3 import ID3, POPM
+from mutagen.id3 import ID3
 from mutagen.mp4 import MP4
 
 def mfor(path):
@@ -37,7 +37,7 @@ class MusicDict():
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
         folders = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
         for phile in files:
-            if(len(re.findall(".*(mp3|mp4|m4a)+", phile)) != 0):
+            if(len(re.findall(".*(mp3|mp4|m4a)$", phile)) != 0):
                 file_info = {'path': os.path.join(path, phile), 'filename': phile}
                 if('m4a' in phile):
                     va = mfor(file_info['path'])
