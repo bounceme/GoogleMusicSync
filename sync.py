@@ -2,6 +2,7 @@ import gmusicapi
 import os
 import sys
 import re
+import getpass
 from mutagen.id3 import ID3
 from mutagen.mp4 import MP4
 
@@ -63,7 +64,7 @@ music_dict = build_dict()
 print "Songs found: ", music_dict.size
 
 google_music = gmusicapi.Mobileclient()
-google_music.login(sys.argv[1],sys.argv[2],google_music.FROM_MAC_ADDRESS)
+google_music.login(sys.argv[1],getpass.getpass(),google_music.FROM_MAC_ADDRESS)
 google_songs = google_music.get_all_songs()
 
 delete_songs = []
